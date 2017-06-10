@@ -20,7 +20,7 @@
     String ip = request.getParameter("ip");
     if (ip != null) {
         out.print(ip);
-    }
+    }%><br><%
     String message = (String) request.getAttribute("message");
     if (message != null) {
         out.print(message);
@@ -28,6 +28,6 @@
 %></p>
 <%--<p style="text-align: center"><%=(request.getAttribute("message")) != null ? request.getAttribute("message") : ""%>--%>
 <%--</p><br>--%>
-<h5 style="text-align: center">北京市 清华大学计算机与信息管理中心</h5>
+<h5 style="text-align: center">全球IP信息管理中心</h5>
 </body>
 </html>
