@@ -13,7 +13,7 @@
 <body>
 <h1 style="text-align: center">IP SEARCH</h1>
 <form style="text-align: center" action="index" method="post">
-    <input style="text-align: center" type="text" name="ip" placeholder="ip 地址"><input type="submit"
+    <input style="text-align: center" type="text" name="ip" placeholder="ip 地址"><input style="background: slateblue" type="submit"
                                                                                             value="查询"><br>
 </form>
 <p style="text-align: center"><%
