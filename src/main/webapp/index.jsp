@@ -1,4 +1,5 @@
-<%--
+<%@ page import="demo.servlet.AddressServlet" %>
+<%@ page import="demo.util.Ip" %><%--
   Created by IntelliJ IDEA.
   User: anlu
   Date: 2017/6/10
@@ -9,25 +10,27 @@
 <html>
 <head>
     <title>index page</title>
+    <%--<script>--%>
+    <%--function  ip() {--%>
+    <%--var form = document.getElementById('form');--%>
+    <%--form.submit();--%>
+    <%--}--%>
+    <%--</script>--%>
 </head>
-<body>
+<body onload="ip()">
 <h1 style="text-align: center">IP SEARCH</h1>
-<form style="text-align: center" action="index" method="post">
-    <input style="text-align: center" type="text" name="ip" placeholder="ip 地址"><input style="background: slateblue" type="submit"
-                                                                                            value="查询"><br>
+<form style="text-align: center" id="form" action="index" method="post">
+    <input style="text-align: center" type="text" name="ip" placeholder="ip 地址">
+    <input style="background: slateblue" type="submit" value="查询"><br>
 </form>
+<p style="text-align: center">${sessionScope.geo}</p>
 <p style="text-align: center"><%
-    String ip = request.getParameter("ip");
-    if (ip != null) {
-        out.print(ip);
-    }%><br><%
-    String message = (String) request.getAttribute("message");
-    if (message != null) {
-        out.print(message);
+    if (session.getAttribute("geo") == null) {
+        String ip = request.getRemoteAddr();
+        out.print(ip + "<br>");
+        out.print(AddressServlet.getGeo(ip));
     }
 %></p>
-<%--<p style="text-align: center"><%=(request.getAttribute("message")) != null ? request.getAttribute("message") : ""%>--%>
-<%--</p><br>--%>
 <h5 style="text-align: center">全球IP信息管理中心</h5>
 </body>
 </html>

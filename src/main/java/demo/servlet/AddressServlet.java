@@ -22,24 +22,33 @@ import java.sql.SQLException;
 public class AddressServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String ip = req.getParameter("ip");
-
+        String ip = req.getParameter("ip").trim();
+        if (ip.length() == 0) {
+            ip = req.getRemoteAddr();
+        }
+        req.getSession().setAttribute("geo", getGeo(ip));
+        req.getRequestDispatcher("index.jsp").forward(req, resp);
+    }
+    public static String getGeo(String ip){
         Connection connection = Ip.getConnection();
         PreparedStatement statement = null;
         ResultSet resultSet = null;
+            String sql = "SELECT geo\n"+"FROM db_1702.ip\n"+"WHERE inet_aton(?) BETWEEN inet_aton(min) AND inet_aton(max)";
         try {
-            String sql = "SELECT * FROM db_1702.ip WHERE inet_aton(?) BETWEEN inet_aton(min) AND inet_aton(max)";
-            statement = connection.prepareStatement(sql);
+            if (connection != null) {
+                statement = connection.prepareStatement(sql);
+            }else {
+                return null;
+            }
             statement.setString(1, ip);
             resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                req.setAttribute("message", resultSet.getString("geo"));
-                req.getRequestDispatcher("index.jsp").forward(req, resp);
-            }
+            resultSet.next();
+            return resultSet.getString("geo");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             Ip.close(resultSet, statement, connection);
         }
+        return null;
     }
 }
